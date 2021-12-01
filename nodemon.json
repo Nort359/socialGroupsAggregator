@@ -1,0 +1,11 @@
+{
+  "restartable": "rs",
+  "ignore": [],
+  "watch": ["src"],
+  "verbose": false,
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "ext": "ts",
+  "delay": 800
+}
