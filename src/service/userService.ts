@@ -42,7 +42,7 @@ class UserService {
         await user.save();
     }
 
-    async login(email: string, password: string) {
+    async getUser(email: string, password: string) {
         const user = await UserModel.findOne({ email });
         const errorMessage = 'Пользователь с ведёнными данными не найден';
 
@@ -56,7 +56,11 @@ class UserService {
             throw ApiError.BadRequest(errorMessage);
         }
 
-        const userDto = new UserDto(user);
+        return new UserDto(user);
+    }
+
+    async login(email: string, password: string) {
+        const userDto = await this.getUser(email, password);
         const tokens = tokenService.generateTokens({ ...userDto });
 
         await tokenService.saveToken(userDto.id, tokens.refreshToken);

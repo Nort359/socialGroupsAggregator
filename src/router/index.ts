@@ -5,6 +5,7 @@ import authMiddleware from '../middlewares/authMiddleware';
 
 import userController from '../controllers/userController';
 import groupController from '../controllers/groupController';
+import telegramController from '../controllers/telegramController';
 
 const router = Router();
 
@@ -16,16 +17,21 @@ router.post(
     userController.registration
 );
 router.post('/login', userController.login);
-router.post('/logout', userController.logout);
+router.delete('/logout', userController.logout);
 router.get('/activate/:link', userController.activate);
 router.get('/refresh', userController.refresh);
 router.get('/users', authMiddleware, userController.getUsers);
 
 // group
 router.get('/group', groupController.getAll);
-router.get('/group:name', groupController.get);
+router.get('/group/:user', groupController.getAllUser);
+router.get('/group/:user/:name', groupController.get);
 router.post('/group', groupController.add);
 router.patch('/group', groupController.update);
-router.delete('/group', groupController.remove);
+router.delete('/group/:id', groupController.remove);
+
+// telegram
+router.get('/telegram/:user', telegramController.getTelegramDataByUser);
+router.post('/telegram/sendMessage', telegramController.sendMessage);
 
 export default router;
